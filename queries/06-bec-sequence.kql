@@ -1,0 +1,56 @@
+// Title: BEC sequence: new-IP sign-in followed by mailbox and identity tampering
+// Description: Single signals are noisy. This correlates per user: a successful sign-in from a
+//   never-seen IP, plus inbox rule changes, OAuth consent, or security info changes, all inside
+//   a short window. Three or more distinct signals anchored on a new-IP sign-in is a strong
+//   account takeover lead.
+// Tables: SigninLogs, OfficeActivity, AuditLogs
+// MITRE: T1078.004, T1564.008, T1528, T1556.006
+// False positives: A user who sets up a new device, creates a rule, and installs an add-in in
+//   the same afternoon. Rare, but it happens after onboarding or a phone upgrade.
+// Tuning: Tighten seq_window for alerting. Add risky sign-in signals (RiskLevelDuringSignIn)
+//   if you have Entra ID P2.
+// Expected lab results: 1 row. dana@lab.example with 4 signals (new-ip-signin, inbox-rule,
+//   oauth-consent, security-info-change) spanning ~43 minutes. ravi@lab.example has 3 benign
+//   signals but no new-IP sign-in, so he is not returned.
+let query_end = now();
+let lookback = 1d;
+let baseline = 14d;
+let seq_window = 4h;
+let known_ips = SigninLogs
+    | where TimeGenerated between ((query_end - lookback - baseline) .. (query_end - lookback))
+    | where ResultType == "0"
+    | extend KnownUser = tolower(UserPrincipalName)
+    | distinct KnownUser, IPAddress;
+let new_ip_signins = SigninLogs
+    | where TimeGenerated between ((query_end - lookback) .. query_end)
+    | where ResultType == "0"
+    | extend User = tolower(UserPrincipalName)
+    | join kind=leftanti known_ips on $left.User == $right.KnownUser, $left.IPAddress == $right.IPAddress
+    | project TimeGenerated, User, Signal = "new-ip-signin",
+              Detail = strcat(IPAddress, " (", tostring(LocationDetails.countryOrRegion), ")");
+let inbox_rules = OfficeActivity
+    | where TimeGenerated between ((query_end - lookback) .. query_end)
+    | where Operation in~ ("New-InboxRule", "Set-InboxRule", "UpdateInboxRules")
+    | project TimeGenerated, User = tolower(UserId), Signal = "inbox-rule",
+              Detail = strcat(Operation, " from ", ClientIP);
+let consents = AuditLogs
+    | where TimeGenerated between ((query_end - lookback) .. query_end)
+    | where OperationName == "Consent to application"
+    | project TimeGenerated, User = tolower(tostring(InitiatedBy.user.userPrincipalName)),
+              Signal = "oauth-consent", Detail = tostring(TargetResources[0].displayName);
+let recovery_changes = AuditLogs
+    | where TimeGenerated between ((query_end - lookback) .. query_end)
+    | where OperationName has "security info"
+    | project TimeGenerated, User = tolower(tostring(TargetResources[0].userPrincipalName)),
+              Signal = "security-info-change", Detail = OperationName;
+union new_ip_signins, inbox_rules, consents, recovery_changes
+| order by TimeGenerated asc
+| summarize FirstSeen = min(TimeGenerated),
+            LastSeen = max(TimeGenerated),
+            Signals = make_set(Signal),
+            Sequence = make_list(bag_pack("time", TimeGenerated, "signal", Signal, "detail", Detail))
+    by User
+| extend SignalCount = array_length(Signals), SpanMinutes = datetime_diff('minute', LastSeen, FirstSeen)
+| where Signals has "new-ip-signin" and SignalCount >= 3 and LastSeen - FirstSeen <= seq_window
+| project User, SignalCount, SpanMinutes, FirstSeen, LastSeen, Signals, Sequence
+| order by SignalCount desc

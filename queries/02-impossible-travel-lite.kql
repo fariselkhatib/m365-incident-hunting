@@ -1,0 +1,33 @@
+// Title: Successful sign-ins from different countries within a short window
+// Description: Orders each user's successful sign-ins and flags consecutive pairs where the
+//   country changes faster than max_hours. A deliberately simple version of impossible
+//   travel that you can read top to bottom and explain to a client.
+// Tables: SigninLogs
+// MITRE: T1078.004
+// False positives: VPNs and cloud proxies that egress in another country, mobile carriers
+//   with odd geolocation, travelers on in-flight Wi-Fi. Pair with UserAgent and app: same
+//   device fingerprint on both sides usually means VPN; a brand new client means look harder.
+// Tuning: Raise max_hours to catch slower pivots. Exclude corporate VPN egress IPs.
+//   Distance-based versions are more precise but harder to defend when geo-IP is wrong.
+// Expected lab results: 1 row. dana@lab.example, US -> NL in ~1.37 hours, second sign-in
+//   from 198.51.100.77 with a python-requests user agent.
+let query_end = now();
+let lookback = 1d;
+let max_hours = 4.0;
+SigninLogs
+| where TimeGenerated between ((query_end - lookback) .. query_end)
+| where ResultType == "0"
+| extend Country = tostring(LocationDetails.countryOrRegion)
+| where isnotempty(Country)
+| project TimeGenerated, UserPrincipalName, IPAddress, Country, AppDisplayName, UserAgent
+| order by UserPrincipalName asc, TimeGenerated asc
+| extend PrevUser = prev(UserPrincipalName),
+         PrevTime = prev(TimeGenerated),
+         PrevCountry = prev(Country),
+         PrevIP = prev(IPAddress),
+         PrevUserAgent = prev(UserAgent)
+| where UserPrincipalName == PrevUser and Country != PrevCountry
+| extend HoursBetween = round(datetime_diff('second', TimeGenerated, PrevTime) / 3600.0, 2)
+| where HoursBetween <= max_hours
+| project UserPrincipalName, PrevTime, PrevCountry, PrevIP, TimeGenerated, Country, IPAddress,
+          HoursBetween, AppDisplayName, PrevUserAgent, UserAgent

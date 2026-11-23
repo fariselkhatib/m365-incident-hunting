@@ -1,0 +1,100 @@
+[
+  {
+    "TimeGenerated": "2026-03-10T14:55:00Z",
+    "OperationName": "Consent to application",
+    "Category": "ApplicationManagement",
+    "Result": "success",
+    "ResultReason": "",
+    "InitiatedBy": {
+      "user": {
+        "userPrincipalName": "dana@lab.example",
+        "ipAddress": "198.51.100.77"
+      }
+    },
+    "TargetResources": [
+      {
+        "displayName": "Mail Sync Pro",
+        "id": "00000000-0000-0000-0000-00000000a001",
+        "modifiedProperties": [
+          {
+            "displayName": "ConsentContext.IsAdminConsent",
+            "newValue": "\"False\""
+          },
+          {
+            "displayName": "ConsentAction.Permissions",
+            "newValue": "[] => [[ConsentType: Principal, Scope: Mail.ReadWrite offline_access User.Read, ]]"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "TimeGenerated": "2026-03-10T15:05:00Z",
+    "OperationName": "User registered security info",
+    "Category": "UserManagement",
+    "Result": "success",
+    "ResultReason": "User registered Authenticator App with Notification and Code",
+    "InitiatedBy": {
+      "user": {
+        "userPrincipalName": "dana@lab.example",
+        "ipAddress": "198.51.100.77"
+      }
+    },
+    "TargetResources": [
+      {
+        "displayName": "dana",
+        "userPrincipalName": "dana@lab.example",
+        "modifiedProperties": []
+      }
+    ]
+  },
+  {
+    "TimeGenerated": "2026-03-10T15:30:00Z",
+    "OperationName": "Consent to application",
+    "Category": "ApplicationManagement",
+    "Result": "success",
+    "ResultReason": "",
+    "InitiatedBy": {
+      "user": {
+        "userPrincipalName": "ravi@lab.example",
+        "ipAddress": "203.0.113.10"
+      }
+    },
+    "TargetResources": [
+      {
+        "displayName": "Zoom",
+        "id": "00000000-0000-0000-0000-00000000a002",
+        "modifiedProperties": [
+          {
+            "displayName": "ConsentContext.IsAdminConsent",
+            "newValue": "\"False\""
+          },
+          {
+            "displayName": "ConsentAction.Permissions",
+            "newValue": "[] => [[ConsentType: Principal, Scope: User.Read openid profile email, ]]"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "TimeGenerated": "2026-03-10T15:45:00Z",
+    "OperationName": "User registered security info",
+    "Category": "UserManagement",
+    "Result": "success",
+    "ResultReason": "User registered Mobile Phone SMS",
+    "InitiatedBy": {
+      "user": {
+        "userPrincipalName": "ravi@lab.example",
+        "ipAddress": "203.0.113.10"
+      }
+    },
+    "TargetResources": [
+      {
+        "displayName": "ravi",
+        "userPrincipalName": "ravi@lab.example",
+        "modifiedProperties": []
+      }
+    ]
+  }
+]

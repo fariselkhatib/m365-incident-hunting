@@ -1,0 +1,29 @@
+[
+  {
+    "TimeGenerated": "2026-03-10T14:40:00Z",
+    "UserId": "dana@lab.example",
+    "ClientIP": "198.51.100.77",
+    "Operation": "New-InboxRule",
+    "OfficeWorkload": "Exchange",
+    "ResultStatus": "True",
+    "Parameters": "[{\"Name\": \"Name\", \"Value\": \".\"}, {\"Name\": \"SubjectOrBodyContainsWords\", \"Value\": \"invoice;payment;wire\"}, {\"Name\": \"MoveToFolder\", \"Value\": \"RSS Subscriptions\"}, {\"Name\": \"MarkAsRead\", \"Value\": \"True\"}, {\"Name\": \"StopProcessingRules\", \"Value\": \"True\"}]"
+  },
+  {
+    "TimeGenerated": "2026-03-10T15:20:00Z",
+    "UserId": "ravi@lab.example",
+    "ClientIP": "203.0.113.10",
+    "Operation": "New-InboxRule",
+    "OfficeWorkload": "Exchange",
+    "ResultStatus": "True",
+    "Parameters": "[{\"Name\": \"Name\", \"Value\": \"Newsletters\"}, {\"Name\": \"From\", \"Value\": \"news@vendor.example\"}, {\"Name\": \"MoveToFolder\", \"Value\": \"Newsletters\"}, {\"Name\": \"StopProcessingRules\", \"Value\": \"False\"}]"
+  },
+  {
+    "TimeGenerated": "2026-03-10T16:05:00Z",
+    "UserId": "mlee@lab.example",
+    "ClientIP": "203.0.113.20",
+    "Operation": "New-InboxRule",
+    "OfficeWorkload": "Exchange",
+    "ResultStatus": "True",
+    "Parameters": "[{\"Name\": \"Name\", \"Value\": \"Fwd to personal\"}, {\"Name\": \"ForwardTo\", \"Value\": \"mlee.personal@mail.example\"}, {\"Name\": \"StopProcessingRules\", \"Value\": \"False\"}]"
+  }
+]

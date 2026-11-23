@@ -1,0 +1,223 @@
+[
+  {
+    "TimeGenerated": "2026-03-01T15:10:00Z",
+    "UserPrincipalName": "dana@lab.example",
+    "IPAddress": "203.0.113.10",
+    "ResultType": "0",
+    "ResultDescription": "",
+    "AppDisplayName": "Office 365 Exchange Online",
+    "UserAgent": "Microsoft Office/16.0 (Windows NT 10.0; Microsoft Outlook 16.0)",
+    "LocationDetails": {
+      "countryOrRegion": "US",
+      "city": "Houston"
+    }
+  },
+  {
+    "TimeGenerated": "2026-03-01T15:40:00Z",
+    "UserPrincipalName": "ravi@lab.example",
+    "IPAddress": "203.0.113.10",
+    "ResultType": "0",
+    "ResultDescription": "",
+    "AppDisplayName": "Office 365 Exchange Online",
+    "UserAgent": "Microsoft Office/16.0 (Windows NT 10.0; Microsoft Outlook 16.0)",
+    "LocationDetails": {
+      "countryOrRegion": "US",
+      "city": "Houston"
+    }
+  },
+  {
+    "TimeGenerated": "2026-03-02T16:05:00Z",
+    "UserPrincipalName": "mlee@lab.example",
+    "IPAddress": "203.0.113.20",
+    "ResultType": "0",
+    "ResultDescription": "",
+    "AppDisplayName": "Office 365 Exchange Online",
+    "UserAgent": "Microsoft Office/16.0 (Windows NT 10.0; Microsoft Outlook 16.0)",
+    "LocationDetails": {
+      "countryOrRegion": "US",
+      "city": "Houston"
+    }
+  },
+  {
+    "TimeGenerated": "2026-03-10T13:00:00Z",
+    "UserPrincipalName": "dana@lab.example",
+    "IPAddress": "203.0.113.10",
+    "ResultType": "0",
+    "ResultDescription": "",
+    "AppDisplayName": "Office 365 Exchange Online",
+    "UserAgent": "Microsoft Office/16.0 (Windows NT 10.0; Microsoft Outlook 16.0)",
+    "LocationDetails": {
+      "countryOrRegion": "US",
+      "city": "Houston"
+    }
+  },
+  {
+    "TimeGenerated": "2026-03-10T13:30:00Z",
+    "UserPrincipalName": "ravi@lab.example",
+    "IPAddress": "203.0.113.10",
+    "ResultType": "0",
+    "ResultDescription": "",
+    "AppDisplayName": "Office 365 Exchange Online",
+    "UserAgent": "Microsoft Office/16.0 (Windows NT 10.0; Microsoft Outlook 16.0)",
+    "LocationDetails": {
+      "countryOrRegion": "US",
+      "city": "Houston"
+    }
+  },
+  {
+    "TimeGenerated": "2026-03-10T13:45:00Z",
+    "UserPrincipalName": "mlee@lab.example",
+    "IPAddress": "203.0.113.20",
+    "ResultType": "50126",
+    "ResultDescription": "Invalid username or password",
+    "AppDisplayName": "Office 365 Exchange Online",
+    "UserAgent": "Microsoft Office/16.0 (Windows NT 10.0; Microsoft Outlook 16.0)",
+    "LocationDetails": {
+      "countryOrRegion": "US",
+      "city": "Houston"
+    }
+  },
+  {
+    "TimeGenerated": "2026-03-10T13:46:00Z",
+    "UserPrincipalName": "mlee@lab.example",
+    "IPAddress": "203.0.113.20",
+    "ResultType": "0",
+    "ResultDescription": "",
+    "AppDisplayName": "Office 365 Exchange Online",
+    "UserAgent": "Microsoft Office/16.0 (Windows NT 10.0; Microsoft Outlook 16.0)",
+    "LocationDetails": {
+      "countryOrRegion": "US",
+      "city": "Houston"
+    }
+  },
+  {
+    "TimeGenerated": "2026-03-10T14:00:15Z",
+    "UserPrincipalName": "alex@lab.example",
+    "IPAddress": "198.51.100.77",
+    "ResultType": "50126",
+    "ResultDescription": "Invalid username or password",
+    "AppDisplayName": "OfficeHome",
+    "UserAgent": "python-requests/2.31.0",
+    "LocationDetails": {
+      "countryOrRegion": "NL",
+      "city": "Amsterdam"
+    }
+  },
+  {
+    "TimeGenerated": "2026-03-10T14:02:15Z",
+    "UserPrincipalName": "bea@lab.example",
+    "IPAddress": "198.51.100.77",
+    "ResultType": "50126",
+    "ResultDescription": "Invalid username or password",
+    "AppDisplayName": "OfficeHome",
+    "UserAgent": "python-requests/2.31.0",
+    "LocationDetails": {
+      "countryOrRegion": "NL",
+      "city": "Amsterdam"
+    }
+  },
+  {
+    "TimeGenerated": "2026-03-10T14:04:15Z",
+    "UserPrincipalName": "chris@lab.example",
+    "IPAddress": "198.51.100.77",
+    "ResultType": "50126",
+    "ResultDescription": "Invalid username or password",
+    "AppDisplayName": "OfficeHome",
+    "UserAgent": "python-requests/2.31.0",
+    "LocationDetails": {
+      "countryOrRegion": "NL",
+      "city": "Amsterdam"
+    }
+  },
+  {
+    "TimeGenerated": "2026-03-10T14:06:15Z",
+    "UserPrincipalName": "dana@lab.example",
+    "IPAddress": "198.51.100.77",
+    "ResultType": "50126",
+    "ResultDescription": "Invalid username or password",
+    "AppDisplayName": "OfficeHome",
+    "UserAgent": "python-requests/2.31.0",
+    "LocationDetails": {
+      "countryOrRegion": "NL",
+      "city": "Amsterdam"
+    }
+  },
+  {
+    "TimeGenerated": "2026-03-10T14:08:15Z",
+    "UserPrincipalName": "eli@lab.example",
+    "IPAddress": "198.51.100.77",
+    "ResultType": "50126",
+    "ResultDescription": "Invalid username or password",
+    "AppDisplayName": "OfficeHome",
+    "UserAgent": "python-requests/2.31.0",
+    "LocationDetails": {
+      "countryOrRegion": "NL",
+      "city": "Amsterdam"
+    }
+  },
+  {
+    "TimeGenerated": "2026-03-10T14:10:15Z",
+    "UserPrincipalName": "faye@lab.example",
+    "IPAddress": "198.51.100.77",
+    "ResultType": "50126",
+    "ResultDescription": "Invalid username or password",
+    "AppDisplayName": "OfficeHome",
+    "UserAgent": "python-requests/2.31.0",
+    "LocationDetails": {
+      "countryOrRegion": "NL",
+      "city": "Amsterdam"
+    }
+  },
+  {
+    "TimeGenerated": "2026-03-10T14:12:15Z",
+    "UserPrincipalName": "gus@lab.example",
+    "IPAddress": "198.51.100.77",
+    "ResultType": "50126",
+    "ResultDescription": "Invalid username or password",
+    "AppDisplayName": "OfficeHome",
+    "UserAgent": "python-requests/2.31.0",
+    "LocationDetails": {
+      "countryOrRegion": "NL",
+      "city": "Amsterdam"
+    }
+  },
+  {
+    "TimeGenerated": "2026-03-10T14:14:15Z",
+    "UserPrincipalName": "hana@lab.example",
+    "IPAddress": "198.51.100.77",
+    "ResultType": "50126",
+    "ResultDescription": "Invalid username or password",
+    "AppDisplayName": "OfficeHome",
+    "UserAgent": "python-requests/2.31.0",
+    "LocationDetails": {
+      "countryOrRegion": "NL",
+      "city": "Amsterdam"
+    }
+  },
+  {
+    "TimeGenerated": "2026-03-10T14:16:40Z",
+    "UserPrincipalName": "dana@lab.example",
+    "IPAddress": "198.51.100.77",
+    "ResultType": "50126",
+    "ResultDescription": "Invalid username or password",
+    "AppDisplayName": "OfficeHome",
+    "UserAgent": "python-requests/2.31.0",
+    "LocationDetails": {
+      "countryOrRegion": "NL",
+      "city": "Amsterdam"
+    }
+  },
+  {
+    "TimeGenerated": "2026-03-10T14:22:00Z",
+    "UserPrincipalName": "dana@lab.example",
+    "IPAddress": "198.51.100.77",
+    "ResultType": "0",
+    "ResultDescription": "",
+    "AppDisplayName": "OfficeHome",
+    "UserAgent": "python-requests/2.31.0",
+    "LocationDetails": {
+      "countryOrRegion": "NL",
+      "city": "Amsterdam"
+    }
+  }
+]

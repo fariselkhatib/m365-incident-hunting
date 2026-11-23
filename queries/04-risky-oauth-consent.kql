@@ -1,0 +1,41 @@
+// Title: OAuth consent grants with mailbox, file, or persistence scopes
+// Description: Pulls "Consent to application" events and extracts the granted scopes from
+//   the modified properties. Keeps only grants that include high-impact delegated permissions.
+//   offline_access matters because it issues refresh tokens: the app keeps access after a
+//   password reset.
+// Tables: AuditLogs
+// MITRE: T1528, T1550.001
+// False positives: Legit productivity add-ins (mail clients, CRMs, e-signature tools) ask for
+//   Mail.Read and offline_access all the time. Verify the publisher, app age, and whether
+//   other users in the tenant use it.
+// Tuning: Add tenant-approved AppIds to an allowlist. Restrict user consent in Entra ID so
+//   this query becomes a rare-event alert instead of a hunt.
+// Expected lab results: 1 row. dana@lab.example granted "Mail Sync Pro" Mail.ReadWrite and
+//   offline_access from 198.51.100.77. ravi@lab.example's Zoom consent (User.Read only) is
+//   not returned.
+let query_end = now();
+let lookback = 7d;
+let high_risk_scopes = dynamic(["Mail.Read", "Mail.ReadWrite", "Mail.Send", "MailboxSettings.ReadWrite",
+                                "Files.Read.All", "Files.ReadWrite.All", "Sites.ReadWrite.All",
+                                "Contacts.Read", "EWS.AccessAsUser.All", "full_access_as_user",
+                                "offline_access"]);
+AuditLogs
+| where TimeGenerated between ((query_end - lookback) .. query_end)
+| where OperationName == "Consent to application"
+| extend AppName = tostring(TargetResources[0].displayName),
+         AppId = tostring(TargetResources[0].id),
+         Actor = tostring(InitiatedBy.user.userPrincipalName),
+         ActorIP = tostring(InitiatedBy.user.ipAddress)
+| mv-apply mp = TargetResources[0].modifiedProperties on (
+    summarize Props = make_bag(bag_pack(tostring(mp.displayName), tostring(mp.newValue)))
+  )
+| extend IsAdminConsent = tostring(Props["ConsentContext.IsAdminConsent"]) has "True",
+         Permissions = tostring(Props["ConsentAction.Permissions"])
+| extend Scopes = extract_all(@"(offline_access|full_access_as_user|[A-Za-z]+\.[A-Za-z.]+)", Permissions)
+| extend RiskyScopes = set_intersect(Scopes, high_risk_scopes)
+| extend RiskyScopeCount = array_length(RiskyScopes)
+| where RiskyScopeCount > 0
+| extend GrantsPersistence = RiskyScopes has "offline_access"
+| project TimeGenerated, Actor, ActorIP, AppName, AppId, IsAdminConsent, RiskyScopes,
+          RiskyScopeCount, GrantsPersistence, Result
+| order by RiskyScopeCount desc

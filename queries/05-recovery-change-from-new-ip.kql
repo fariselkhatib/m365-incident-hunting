@@ -1,0 +1,35 @@
+// Title: MFA / account recovery changes from an IP the user has never signed in from
+// Description: Attackers who get a session often register their own authenticator or phone
+//   number so they survive a password reset. This flags security info and password changes
+//   where the initiating IP has no successful sign-in for that user in the prior baseline.
+// Tables: AuditLogs, SigninLogs
+// MITRE: T1556.006, T1098.005
+// False positives: New phone or laptop on a new home network. Users who travel. Admin-initiated
+//   changes always show the admin's IP, so they'll surface unless you split them out (the
+//   Actor column makes that easy).
+// Tuning: Extend baseline to 30d for low-activity users. Join to the sign-in that preceded
+//   the change to see the client and country.
+// Expected lab results: 1 row. dana@lab.example "User registered security info" from
+//   198.51.100.77. ravi@lab.example's change from his usual IP is not returned.
+let query_end = now();
+let lookback = 1d;
+let baseline = 14d;
+let recovery_ops = dynamic(["User registered security info", "User changed default security info",
+                            "User deleted security info", "Admin registered security info",
+                            "Admin updated security info", "Admin deleted security info",
+                            "Reset password (self-service)", "Reset user password",
+                            "Change user password"]);
+let known_ips = SigninLogs
+    | where TimeGenerated between ((query_end - lookback - baseline) .. (query_end - lookback))
+    | where ResultType == "0"
+    | extend KnownUser = tolower(UserPrincipalName)
+    | distinct KnownUser, IPAddress;
+AuditLogs
+| where TimeGenerated between ((query_end - lookback) .. query_end)
+| where OperationName in (recovery_ops)
+| extend Target = tolower(tostring(TargetResources[0].userPrincipalName)),
+         Actor = tostring(InitiatedBy.user.userPrincipalName),
+         ActorIP = tostring(InitiatedBy.user.ipAddress)
+| join kind=leftanti known_ips on $left.Target == $right.KnownUser, $left.ActorIP == $right.IPAddress
+| project TimeGenerated, OperationName, Target, Actor, ActorIP, Result, ResultReason
+| order by TimeGenerated asc
